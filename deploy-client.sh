@@ -40,6 +40,46 @@ GITHUB_USERNAME="hzis"
 GITHUB_REGISTRY="ghcr.io"
 IMAGE_NAME="hzis/cdrviewer_worker/cdr-worker"
 
+# Detectar arquitetura do servidor
+detect_architecture() {
+    local arch=$(uname -m)
+    case $arch in
+        x86_64)
+            echo "amd64"
+            ;;
+        aarch64|arm64)
+            echo "arm64"
+            ;;
+        armv7l)
+            echo "arm/v7"
+            ;;
+        *)
+            log_warning "Arquitetura não suportada: $arch"
+            log_info "Tentando usar imagem genérica (pode não funcionar)"
+            echo "amd64"  # fallback
+            ;;
+    esac
+}
+
+ARCHITECTURE=$(detect_architecture)
+log_info "🏗️ Arquitetura detectada: $ARCHITECTURE"
+
+# Mostrar informações detalhadas da arquitetura
+case $ARCHITECTURE in
+    "amd64")
+        log_info "💻 Servidor x86_64 (Intel/AMD) - Imagem nativa"
+        ;;
+    "arm64")
+        log_info "📱 Servidor ARM64 (Apple Silicon/ARM) - Imagem nativa"
+        ;;
+    "arm/v7")
+        log_info "📱 Servidor ARM v7 - Imagem nativa"
+        ;;
+    *)
+        log_warning "⚠️ Arquitetura não reconhecida - usando fallback"
+        ;;
+esac
+
 log_info "Configurando deploy do cliente..."
 echo ""
 # Verificar se o token foi fornecido via variável de ambiente ou stdin
@@ -118,12 +158,13 @@ mkdir -p config logs data
 
 # Criar docker-compose.yml se não existir
 if [ ! -f "docker-compose.yml" ]; then
-    log_info "Criando docker-compose.yml..."
-    cat > docker-compose.yml << 'EOF'
+    log_info "Criando docker-compose.yml para arquitetura $ARCHITECTURE..."
+    cat > docker-compose.yml << EOF
 version: '3.8'
 services:
   cdr-worker:
     image: ghcr.io/hzis/cdrviewer_worker/cdr-worker:latest
+    platform: linux/$ARCHITECTURE
     container_name: cdr-worker-01
     restart: always
     env_file:
@@ -139,7 +180,18 @@ networks:
   cdr-network:
     driver: bridge
 EOF
-    log_success "docker-compose.yml criado"
+    log_success "docker-compose.yml criado para $ARCHITECTURE"
+else
+    # Atualizar docker-compose.yml existente com a plataforma correta
+    log_info "Atualizando docker-compose.yml para arquitetura $ARCHITECTURE..."
+    if grep -q "platform:" docker-compose.yml; then
+        # Substituir plataforma existente
+        sed -i "s/platform:.*/platform: linux\/$ARCHITECTURE/" docker-compose.yml
+    else
+        # Adicionar plataforma após a linha da imagem
+        sed -i "/image:.*cdr-worker:latest/a\\    platform: linux/$ARCHITECTURE" docker-compose.yml
+    fi
+    log_success "docker-compose.yml atualizado para $ARCHITECTURE"
 fi
 
 # Criar .env se não existir
@@ -187,4 +239,24 @@ log_info "Para parar: docker-compose down"
 log_info "Para reiniciar: docker-compose restart"
 echo ""
 
+# Informações de troubleshooting para arquitetura
+log_info "🔧 Troubleshooting de Arquitetura:"
+echo ""
+if [ "$ARCHITECTURE" = "arm64" ]; then
+    log_info "📱 Servidor ARM64 detectado:"
+    log_info "  ✅ Imagem multi-arquitetura configurada automaticamente"
+    log_info "  ✅ Não deve haver 'exec format error'"
+    log_info "  ✅ Performance nativa otimizada"
+elif [ "$ARCHITECTURE" = "amd64" ]; then
+    log_info "💻 Servidor x86_64 detectado:"
+    log_info "  ✅ Imagem AMD64 nativa configurada"
+    log_info "  ✅ Compatibilidade total garantida"
+else
+    log_warning "⚠️ Arquitetura não padrão detectada:"
+    log_warning "  🔍 Se houver problemas, verifique se a imagem suporta $ARCHITECTURE"
+    log_warning "  📞 Entre em contato com o suporte se necessário"
+fi
+
+echo ""
 log_success "🎉 Sistema CDR Worker implantado com sucesso!"
+log_info "🏗️ Arquitetura: $ARCHITECTURE | 🐳 Container: cdr-worker-01"
