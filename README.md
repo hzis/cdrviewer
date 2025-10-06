@@ -4,8 +4,8 @@ Este repositório contém os arquivos necessários para fazer deploy do CDR Work
 
 ## 📦 Informações da Build
 
-- **Data**: 2025-10-06 03:22:59 UTC
-- **Commit**: [2cb0523bd571bed403a252ad5642425e664941cd](https://github.com/hzis/cdrviewer_worker/commit/2cb0523bd571bed403a252ad5642425e664941cd)
+- **Data**: 2025-10-06 03:24:23 UTC
+- **Commit**: [b0cc29bcdf3499b110ebc984313b0cf214006c44](https://github.com/hzis/cdrviewer_worker/commit/b0cc29bcdf3499b110ebc984313b0cf214006c44)
 - **Imagem**: ghcr.io/hzis/cdrviewer_worker/cdr-worker:latest
 
 ## 🔑 Pré-requisito: PAT Token
@@ -17,14 +17,14 @@ Entre em contato com a equipe de desenvolvimento para obter o token.
 
 ### Opção 1: Deploy com um comando
 ```bash
+export CLIENT_PAT=seu_token_aqui
 curl -fsSL https://raw.githubusercontent.com/hzis/cdrviewer/main/deploy-client.sh | bash
 ```
-*O script solicitará o PAT Token durante a execução*
 
 ### Opção 2: Deploy manual
 1. Clone: `git clone https://github.com/hzis/cdrviewer.git`
-2. Execute: `cd cdrviewer && ./deploy-client.sh`
-*O script solicitará o PAT Token durante a execução*
+2. Export token: `export CLIENT_PAT=seu_token_aqui`
+3. Execute: `cd cdrviewer && ./deploy-client.sh`
 
 ## 🔧 Deploy Manual (Alternativo)
 
@@ -38,4 +38,4 @@ curl -fsSL https://raw.githubusercontent.com/hzis/cdrviewer/main/deploy-client.s
 Para suporte técnico, entre em contato com a equipe de desenvolvimento.
 
 ---
-*Última atualização: 2025-10-06 03:22:59 UTC*
+*Última atualização: 2025-10-06 03:24:23 UTC*
