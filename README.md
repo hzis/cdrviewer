@@ -4,20 +4,20 @@ Este repositório contém os arquivos necessários para fazer deploy do CDR Work
 
 ## 📦 Informações da Build
 
-- **Data**: 2025-10-06 02:31:23 UTC
-- **Commit**: [7d473ac401eaae31ec01f78e6b2953b79f63cb16](https://github.com/hzis/cdrviewer_worker/commit/7d473ac401eaae31ec01f78e6b2953b79f63cb16)
+- **Data**: 2025-10-06 02:34:52 UTC
+- **Commit**: [249cab1385543a64e569a9b9130502520b3d6051](https://github.com/hzis/cdrviewer_worker/commit/249cab1385543a64e569a9b9130502520b3d6051)
 - **Imagem**: ghcr.io/hzis/cdrviewer_worker/cdr-worker:latest
 
 ## 🚀 Deploy Automatizado (Recomendado)
 
 ### Opção 1: Deploy com um comando
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hzis/cdrviewer/main/deploy.sh | bash
+curl -fsSL https://raw.githubusercontent.com/hzis/cdrviewer/main/deploy-client.sh | bash
 ```
 
 ### Opção 2: Deploy manual
 1. Clone: `git clone https://github.com/hzis/cdrviewer.git`
-2. Execute: `cd cdrviewer && ./deploy.sh`
+2. Execute: `cd cdrviewer && ./deploy-client.sh`
 
 ## 🔧 Deploy Manual (Alternativo)
 
@@ -31,4 +31,4 @@ curl -fsSL https://raw.githubusercontent.com/hzis/cdrviewer/main/deploy.sh | bas
 Para suporte técnico, entre em contato com a equipe de desenvolvimento.
 
 ---
-*Última atualização: 2025-10-06 02:31:23 UTC*
+*Última atualização: 2025-10-06 02:34:52 UTC*
