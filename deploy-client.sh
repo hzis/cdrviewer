@@ -92,16 +92,6 @@ for tag in "${TAGS[@]}"; do
     fi
 done
 
-# Verificar se o deploy.sh existe
-if [ ! -f "./deploy.sh" ]; then
-    log_error "Script deploy.sh não encontrado!"
-    log_info "Certifique-se de estar no diretório correto"
-    exit 1
-fi
-
-# Tornar o deploy.sh executável
-chmod +x ./deploy.sh
-
 # Executar o deploy
 log_info "Iniciando deploy do CDR Worker..."
 echo ""
@@ -109,8 +99,68 @@ echo ""
 # Usar a tag disponível ou padrão
 DEFAULT_TAG="ghcr.io/hzis/cdrviewer_worker/cdr-worker:latest"
 
-log_info "Executando: ./deploy.sh deploy $DEFAULT_TAG"
-./deploy.sh deploy "$DEFAULT_TAG"
+log_info "Usando imagem: $DEFAULT_TAG"
+
+# Criar diretórios necessários
+log_info "Criando estrutura de diretórios..."
+mkdir -p config logs data
+
+# Criar docker-compose.yml se não existir
+if [ ! -f "docker-compose.yml" ]; then
+    log_info "Criando docker-compose.yml..."
+    cat > docker-compose.yml << 'EOF'
+version: '3.8'
+services:
+  cdr-worker:
+    image: ghcr.io/hzis/cdrviewer_worker/cdr-worker:latest
+    container_name: cdr-worker-01
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - cdr-network
+
+networks:
+  cdr-network:
+    driver: bridge
+EOF
+    log_success "docker-compose.yml criado"
+fi
+
+# Criar .env se não existir
+if [ ! -f ".env" ]; then
+    log_info "Criando arquivo .env..."
+    cat > .env << 'EOF'
+# CDR Worker Configuration
+DB_HOST=192.168.68.2
+DB_PORT=5432
+DB_NAME=cdrviewer
+DB_USER=cdrviewer
+DB_PASSWORD=cdrviewer123
+
+# Worker Configuration
+WORKER_ID=worker01
+LOG_LEVEL=info
+LOG_FILE=/app/logs/cdr-worker.log
+EOF
+    log_success "Arquivo .env criado"
+fi
+
+# Parar containers existentes
+log_info "Parando containers existentes..."
+docker-compose down 2>/dev/null || true
+
+# Fazer pull da imagem
+log_info "Baixando imagem Docker..."
+docker pull "$DEFAULT_TAG"
+
+# Iniciar containers
+log_info "Iniciando containers..."
+docker-compose up -d
 
 echo ""
 log_success "Deploy do cliente concluído!"
@@ -118,12 +168,12 @@ echo ""
 
 # Mostrar status
 log_info "Verificando status dos containers..."
-./deploy.sh status
+docker-compose ps
 
 echo ""
-log_info "Para ver logs: ./deploy.sh logs"
-log_info "Para parar: ./deploy.sh stop"
-log_info "Para reiniciar: ./deploy.sh restart"
+log_info "Para ver logs: docker-compose logs -f"
+log_info "Para parar: docker-compose down"
+log_info "Para reiniciar: docker-compose restart"
 echo ""
 
 log_success "🎉 Sistema CDR Worker implantado com sucesso!"
