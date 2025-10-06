@@ -42,13 +42,24 @@ IMAGE_NAME="hzis/cdrviewer_worker/cdr-worker"
 
 log_info "Configurando deploy do cliente..."
 echo ""
-log_info "🔑 Para acessar a imagem privada, você precisa de um PAT Token."
-log_info "Entre em contato com a equipe de desenvolvimento para obter o token."
-echo ""
-read -p "Digite seu PAT Token: " CLIENT_PAT
+# Verificar se o token foi fornecido via variável de ambiente ou stdin
+if [ -z "$CLIENT_PAT" ]; then
+    log_info "🔑 Para acessar a imagem privada, você precisa de um PAT Token."
+    log_info "Entre em contato com a equipe de desenvolvimento para obter o token."
+    echo ""
+    
+    # Tentar ler do stdin primeiro (para pipes)
+    if [ ! -t 0 ]; then
+        read CLIENT_PAT
+    else
+        read -p "Digite seu PAT Token: " CLIENT_PAT
+    fi
+fi
 
 if [ -z "$CLIENT_PAT" ]; then
     log_error "PAT Token é obrigatório!"
+    log_info "Use: CLIENT_PAT=seu_token curl -fsSL ... | bash"
+    log_info "Ou: echo 'seu_token' | curl -fsSL ... | bash"
     exit 1
 fi
 
