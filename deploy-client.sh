@@ -206,6 +206,7 @@ DB_USER=cdrviewer
 DB_PASSWORD=cdrviewer123
 
 # Worker Configuration
+WORKER_NAME=worker01
 WORKER_ID=worker01
 LOG_LEVEL=info
 LOG_FILE=/app/logs/cdr-worker.log
