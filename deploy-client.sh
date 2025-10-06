@@ -36,12 +36,21 @@ echo "================================="
 echo -e "${NC}"
 
 # Configurações do cliente
-CLIENT_PAT="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"
 GITHUB_USERNAME="hzis"
 GITHUB_REGISTRY="ghcr.io"
 IMAGE_NAME="hzis/cdrviewer_worker/cdr-worker"
 
 log_info "Configurando deploy do cliente..."
+echo ""
+log_info "🔑 Para acessar a imagem privada, você precisa de um PAT Token."
+log_info "Entre em contato com a equipe de desenvolvimento para obter o token."
+echo ""
+read -p "Digite seu PAT Token: " CLIENT_PAT
+
+if [ -z "$CLIENT_PAT" ]; then
+    log_error "PAT Token é obrigatório!"
+    exit 1
+fi
 
 # Verificar se o Docker está instalado
 if ! command -v docker &> /dev/null; then
