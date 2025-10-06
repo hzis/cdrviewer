@@ -4,8 +4,8 @@ Este repositório contém os arquivos necessários para fazer deploy do CDR Work
 
 ## 📦 Informações da Build
 
-- **Data**: 2025-10-06 05:11:29 UTC
-- **Commit**: [3a7f97ed02e6e86905b3d02bb47dc015d466d4c4](https://github.com/hzis/cdrviewer_worker/commit/3a7f97ed02e6e86905b3d02bb47dc015d466d4c4)
+- **Data**: 2025-10-06 05:22:37 UTC
+- **Commit**: [b4b3096443549d9e783a3b91915b0f14a69a6a80](https://github.com/hzis/cdrviewer_worker/commit/b4b3096443549d9e783a3b91915b0f14a69a6a80)
 - **Imagem**: ghcr.io/hzis/cdrviewer_worker/cdr-worker:latest
 
 ## 🔑 Pré-requisito: PAT Token
@@ -38,4 +38,4 @@ curl -fsSL https://raw.githubusercontent.com/hzis/cdrviewer/main/deploy-client.s
 Para suporte técnico, entre em contato com a equipe de desenvolvimento.
 
 ---
-*Última atualização: 2025-10-06 05:11:29 UTC*
+*Última atualização: 2025-10-06 05:22:37 UTC*

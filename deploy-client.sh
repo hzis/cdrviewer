@@ -210,6 +210,44 @@ WORKER_NAME=worker01
 WORKER_ID=worker01
 LOG_LEVEL=info
 LOG_FILE=/app/logs/cdr-worker.log
+
+# POP SSH Configuration (Optional - overrides config.yaml)
+# Uncomment and configure with real POP details:
+# POP_BHE_IP=real_ip_here
+# POP_BHE_USER=real_user_here
+# POP_BHE_PASS=real_password_here
+# POP_BHE_DIR=/real/cdr/directory
+# POP_BHE_FORMAT=.tar.gz
+# 
+# POP_BSB_IP=real_ip_here
+# POP_BSB_USER=real_user_here
+# POP_BSB_PASS=real_password_here
+# POP_BSB_DIR=/real/cdr/directory
+# POP_BSB_FORMAT=.tar.gz
+# 
+# POP_CTA_IP=real_ip_here
+# POP_CTA_USER=real_user_here
+# POP_CTA_PASS=real_password_here
+# POP_CTA_DIR=/real/cdr/directory
+# POP_CTA_FORMAT=.tar.gz
+# 
+# POP_RJO_IP=real_ip_here
+# POP_RJO_USER=real_user_here
+# POP_RJO_PASS=real_password_here
+# POP_RJO_DIR=/real/cdr/directory
+# POP_RJO_FORMAT=.tar.gz
+# 
+# POP_OCO_IP=real_ip_here
+# POP_OCO_USER=real_user_here
+# POP_OCO_PASS=real_password_here
+# POP_OCO_DIR=/real/cdr/directory
+# POP_OCO_FORMAT=.tar.gz
+# 
+# POP_SPO_IP=real_ip_here
+# POP_SPO_USER=real_user_here
+# POP_SPO_PASS=real_password_here
+# POP_SPO_DIR=/real/cdr/directory
+# POP_SPO_FORMAT=.tar.gz
 EOF
     log_success "Arquivo .env criado"
 fi
