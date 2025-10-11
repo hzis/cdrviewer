@@ -219,11 +219,11 @@ LOG_FILE=/app/logs/cdr-worker.log
 # POP_BHE_DIR=/real/cdr/directory
 # POP_BHE_FORMAT=.tar.gz
 # 
-# POP_BSB_IP=real_ip_here
-# POP_BSB_USER=real_user_here
-# POP_BSB_PASS=real_password_here
-# POP_BSB_DIR=/real/cdr/directory
-# POP_BSB_FORMAT=.tar.gz
+# POP_BSA_IP=real_ip_here
+# POP_BSA_USER=real_user_here
+# POP_BSA_PASS=real_password_here
+# POP_BSA_DIR=/real/cdr/directory
+# POP_BSA_FORMAT=.tar.gz
 # 
 # POP_CTA_IP=real_ip_here
 # POP_CTA_USER=real_user_here
