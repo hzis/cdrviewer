@@ -199,7 +199,7 @@ if [ ! -f ".env" ]; then
     log_info "Criando arquivo .env..."
     cat > .env << 'EOF'
 # CDR Worker Configuration
-DB_HOST=192.168.68.2
+DB_HOST=192.168.67.15
 DB_PORT=5432
 DB_NAME=cdrviewer
 DB_USER=cdrviewer
